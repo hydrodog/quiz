@@ -2,7 +2,7 @@ package org.adastraeducation.quiz.equation;
 
 import java.util.ArrayList;
 
-class Stack<T>{
+public class Stack<T>{
 	private ArrayList<T> stack;
 	private int cur;
 	

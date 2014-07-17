@@ -1,4 +1,4 @@
-package org.adastraeducation.quiz.equation;
+package org.adastraeducation.quiz;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -10,36 +10,37 @@ import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Equation extends Question{
+import org.adastraeducation.quiz.equation.Div;
+import org.adastraeducation.quiz.equation.Expression;
+import org.adastraeducation.quiz.equation.Functions;
+import org.adastraeducation.quiz.equation.Minus;
+import org.adastraeducation.quiz.equation.Multi;
+import org.adastraeducation.quiz.equation.Plus;
+import org.adastraeducation.quiz.equation.Stack;
+import org.adastraeducation.quiz.equation.Var;
+
+public class Equation extends Question {
 	
 	private Expression func;
 	
-	public Equation(String id, String name, int level, Expression func){
-		super(id,name,level);
+	public Equation(String title, String level, String question, Expression func){
+		super(title, level, question, false);
 		this.func = func;
 	}
 
+	public String getTagName() { return "Equation"; }
 	@Override
-	public void writeHTML(StringBuilder b) {
-		// TODO Auto-generated method stub
-		b.append("<p>").append(this.getId()).append(":   ");
+	public void writeHTMLContent(StringBuilder b) {
 		func.infix(b);
 		b.append("<p><br>");
-		b.append("<form id=\"").append(this.getId()).append("\"method=get\" ").append(">");
 		b.append("<input type=\"text\" name=\"").append(this.getName()).append("\"><br>");
-		b.append("<input type=\"submit\" value=\"submit\"></form>");
 	}
 
 	@Override
-	public void writeXML(StringBuilder b) {
-		b.append("<Equation id=\"").append(this.getId())
-		.append("\" name=\"").append(this.getName())
-		.append("\" level=\"").append(this.getLevel()).append("\">");
+	public void writeXMLContent(StringBuilder b) {
 		b.append("<Question question=\">");
 		func.infix(b);
 		b.append("\"></Question>");
-		b.append("</Equation>");
-		
 	}
 	
 	public void writeDatabase(){
@@ -51,7 +52,7 @@ public class Equation extends Question{
 		
 		Connection conn=null;
 		Statement stmt=null;
-		String id =this.getId();
+		String id = getId() +"";
 		String name = this.getName();
 		int level = this.getLevel();
 		StringBuilder b = new StringBuilder();
@@ -137,6 +138,15 @@ public class Equation extends Question{
 		}
 		return stack.pop();
 		
+	}
+	
+	public static void testHTMLAndXML(Quiz quiz){
+		Var x = new Var("x",1,3,10);
+		Var y = new Var("y",1,3,10);
+
+		Equation e1 = new Equation("plus","2","",new Plus(x,y)); 
+		
+		quiz.addQuestion(e1);
 	}
 	
 	public static void main(String[] args){

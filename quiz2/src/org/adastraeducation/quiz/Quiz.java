@@ -86,8 +86,8 @@ public class Quiz {
 		Match.testHTMLAndXML(quiz);
 		//MultiAnswer.testHTMLAndXML(quiz);
 		// Equation.testHTMLAndXML(quiz);
-		quiz.writeHTML("quiz.html");
-		quiz.writeXML("quiz.xml");
+		quiz.writeHTML("html/quiz.html");
+		quiz.writeXML("html/quiz.xml");
 	}
 	public static void testQuestionsForEachClass() {
 		// first conduct unit test for each class
@@ -99,6 +99,11 @@ public class Quiz {
 		Quiz quiz = new Quiz();
 		MultiChoice.testHTMLAndXML(quiz);
 		quiz.writeHTML("html/MultiChoice.html");
+		quiz.writeXML("html/MultiChoice.html");
+	
+		quiz = new Quiz();
+		Equation.testHTMLAndXML(quiz);
+		quiz.writeHTML("html/MultiChoice.html"); this would be an error!
 		quiz.writeXML("html/MultiChoice.html");
 		 */
 		
