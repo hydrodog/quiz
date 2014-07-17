@@ -13,14 +13,12 @@ import java.io.PrintWriter;
 public class MultiChoice extends Question {
 	private Answer[] answers;
 	private StdChoice stdchoice;
-	private String choices;
 	private boolean imgAnswer;
 
 	public MultiChoice() {}
 	
 	public MultiChoice(String title, String level, String question, String imgQuestion, String[] answers, String imgAnswer){
 		super(title, level, question, imgQuestion.equals("t"));
-		this.choices = "";
 		this.answers = new Answer[answers.length/2];
 		for(int i = 0, j = 0; i < this.answers.length; i++,j+=2)
 		{
@@ -28,9 +26,8 @@ public class MultiChoice extends Question {
 		}
 		this.imgAnswer = imgAnswer.equals("t");
 	}
-	public MultiChoice(String title, String level, String question, String imgQuestion, StdChoice c, String choices){
+	public MultiChoice(String title, String level, String question, String imgQuestion, StdChoice c){
 		super(title, level, question, imgQuestion.equals("t"));
-		this.choices = choices;
 		stdchoice = c;
 		//TODO: Make sure imgAnswer is correct!
 	}	
@@ -43,13 +40,13 @@ public class MultiChoice extends Question {
 		
 		String[] a1 = {"Strongly Disagree", "1", "Disagree", "2", "No Opinion", "3", "Agree", "4", "Strongly Agree", "5"};
 		StdChoice standardchoice1 = new StdChoice(a1);
-		MultiChoice m3 = new MultiChoice("poll1", "1", "I enjoy studying computational complexity.", "f", standardchoice1, "stdopinion");
+		MultiChoice m3 = new MultiChoice("poll1", "1", "I enjoy studying computational complexity.", "f", standardchoice1);
 		
-		MultiChoice m4 = new MultiChoice("poll1", "1", "I enjoy eating Chinese food.", "f", standardchoice1, "stdopinion");
+		MultiChoice m4 = new MultiChoice("poll1", "1", "I enjoy eating Chinese food.", "f", standardchoice1);
 		
 		String[] a2 = {"O(1)", "1", "O(log_2 n)", "logn", "O(sqrt n)", "sqrtn", "O(n)", "n", "O(n log_2 n)", "nlogn", "O(n^2)", "n^2", "O(n^3)", "n^3"};
 		StdChoice standardchoice2 = new StdChoice(a2);
-		MultiChoice m5 = new MultiChoice("complexity", "1", "The complexity of insertion sort is:", "f", standardchoice2, "complexity");
+		MultiChoice m5 = new MultiChoice("complexity", "1", "The complexity of insertion sort is:", "f", standardchoice2);
 
 		quiz.addQuestion(m1);
 		quiz.addQuestion(m2);
@@ -63,27 +60,27 @@ public class MultiChoice extends Question {
 	
 	public void writeHTMLContent(StringBuilder b) {
 		//b.append("<form id=\"").append(id).append("\" name=\"").append("q1").append("\">");
-		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
-			this.stdchoice.writeHTML(b);
-		else
+		if(this.stdchoice == null)
 			for (int i = 0; i < this.answers.length; i++) {
 				if (imgAnswer)
 					b.append(this.answers[i].graphanswer());
 				else 
 					b.append(this.answers[i].textanswer());
 			}
+		else
+			this.stdchoice.writeHTML(b);
 	}
 	
 	public void writeXMLContent(StringBuilder b) {
 		writeOptAttr(b, "imgAnswer", imgAnswer);
 		endTagWriteQuestion(b);
-		if(this.choices.equals("stdopinion")||this.choices.equals("complexity"))
-			this.stdchoice.writeXML(b);
-		else
+		if(this.stdchoice == null)
 			for(int i = 0; i < answers.length ; i++)
 			{
 				b.append(answers[i].writeXML());
 			}
+		else
+			this.stdchoice.writeXML(b);
 	}
 }
 
