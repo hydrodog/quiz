@@ -33,7 +33,14 @@ public class MultiChoice extends Question {
 		this.choices = choices;
 		stdchoice = c;
 		//TODO: Make sure imgAnswer is correct!
-	}	
+	}
+	public void addAnswer(String answer, boolean correct) {
+		Answer[] temp = answers; //TODO: this should be changed to ArrayList<Answer>!!!
+		
+		answers = new Answer[temp.length+1];
+		System.arraycopy(temp, 0, answers, 0, temp.length);
+		answers[temp.length] = new Answer(answer, correct);
+	}
 	public static void testHTMLAndXML(Quiz quiz){
 		String []ans1 = { "A dynosaur", "t", "A fish", "f", "A primate", "f", "A mammal", "f"};
 		MultiChoice m1 = new MultiChoice("dynosaur", "1", "What is a Tyranosaurus Rex?", "f", ans1, "f"); 
