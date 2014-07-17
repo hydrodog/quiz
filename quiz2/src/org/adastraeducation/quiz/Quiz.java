@@ -56,7 +56,7 @@ public class Quiz {
 		html.append("</body></html>");
 
 		try {
- 			PrintWriter pw = new PrintWriter("html/quiz.html");
+ 			PrintWriter pw = new PrintWriter(filename);
  			pw.println(html);
 			pw.close();
 		} catch (FileNotFoundException e) {
@@ -69,7 +69,7 @@ public class Quiz {
 		xml.append("<?xml version=\"1.0\" ?>");
 		writeXML(xml);
 		try {
-			PrintWriter pw = new PrintWriter("html/quiz.xml");
+			PrintWriter pw = new PrintWriter(filename);
 			pw.println(xml);
 			pw.close();
 		} catch (FileNotFoundException e) {
@@ -85,7 +85,7 @@ public class Quiz {
 		FillIn.testHTMLAndXML(quiz);
 		Match.testHTMLAndXML(quiz);
 		//MultiAnswer.testHTMLAndXML(quiz);
-		// Equation.testHTMLAndXML(quiz);
+		Equation.testHTMLAndXML(quiz);
 		quiz.writeHTML("html/quiz.html");
 		quiz.writeXML("html/quiz.xml");
 	}
@@ -109,14 +109,14 @@ public class Quiz {
 		
 		
 		try {		
-			String[] classes = {"MultiChoice", "FillIn", "Match"} ;//, "MultiAnswer"
+			String[] classes = {"MultiChoice", "FillIn", "Match", "Equation"} ;//, "MultiAnswer"
 			for (String className : classes) {
 				Quiz quiz = new Quiz();
 				Class c = Class.forName("org.adastraeducation.quiz." + className);
 				Method m = c.getMethod("testHTMLAndXML", Quiz.class);
 				m.invoke(c, new Object[]{quiz});				
-				quiz.writeHTML("html/" + c.getName() + ".html");
-				quiz.writeXML("html/" + c.getName() + ".xml");
+				quiz.writeHTML("html/" + className + ".html");
+				quiz.writeXML("html/" + className + ".xml");
 			}
 		} catch (Exception e) {
 				e.printStackTrace(); // class not found? Some other problem?
