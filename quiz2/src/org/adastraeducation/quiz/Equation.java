@@ -20,6 +20,13 @@ import org.adastraeducation.quiz.equation.Stack;
 import org.adastraeducation.quiz.equation.Tree;
 import org.adastraeducation.quiz.equation.Var;
 
+/**
+ * Present equations with random variables.
+ * It has two ways to parse the equations in string[]. One is in infix, and the other is in the RPN.
+ * @author Yingzhu Wang
+ *
+ */
+
 public class Equation extends Question {
 	
 	private Expression func;
