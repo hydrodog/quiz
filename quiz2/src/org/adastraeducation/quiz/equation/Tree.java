@@ -54,12 +54,16 @@ public class Tree{
 		else{
 			Node<String> cur = head;
 			Node<String> previous = null;
-			while(node.level>cur.level){
+			while(cur!=null&&node.level>cur.level){
 				previous=cur;
 				cur=cur.right;
 			}
-			if(cur==null){
+			if(cur==null&&previous!=null){
 				previous.right=node;
+			}
+			else if(previous==null&&cur!=null){
+				node.left=cur;
+				head=node;
 			}
 			else{
 				previous.right=node;

@@ -17,6 +17,7 @@ import org.adastraeducation.quiz.equation.Minus;
 import org.adastraeducation.quiz.equation.Multi;
 import org.adastraeducation.quiz.equation.Plus;
 import org.adastraeducation.quiz.equation.Stack;
+import org.adastraeducation.quiz.equation.Tree;
 import org.adastraeducation.quiz.equation.Var;
 
 public class Equation extends Question {
@@ -90,9 +91,11 @@ public class Equation extends Question {
 		}
 	}
 	
-	public static Expression parseInfix(String s){
+	public static Expression parseInfix(String[] s){
+		Tree t = new Tree(s);
+		String[] rpn = t.traverse();
 		
-		return null;
+		return parseRPN(rpn);
 	}
 	
 	public static Expression parseRPN(String[] s){
