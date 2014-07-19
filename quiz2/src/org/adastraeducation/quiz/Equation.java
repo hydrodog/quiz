@@ -10,13 +10,21 @@ import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.adastraeducation.quiz.equation.Abs;
+import org.adastraeducation.quiz.equation.Asin;
+import org.adastraeducation.quiz.equation.Atan;
+import org.adastraeducation.quiz.equation.Cos;
 import org.adastraeducation.quiz.equation.Div;
 import org.adastraeducation.quiz.equation.Expression;
 import org.adastraeducation.quiz.equation.Functions;
 import org.adastraeducation.quiz.equation.Minus;
 import org.adastraeducation.quiz.equation.Multi;
+import org.adastraeducation.quiz.equation.Neg;
 import org.adastraeducation.quiz.equation.Plus;
+import org.adastraeducation.quiz.equation.Sin;
+import org.adastraeducation.quiz.equation.Sqrt;
 import org.adastraeducation.quiz.equation.Stack;
+import org.adastraeducation.quiz.equation.Tan;
 import org.adastraeducation.quiz.equation.Tree;
 import org.adastraeducation.quiz.equation.Var;
 
@@ -130,6 +138,30 @@ public class Equation extends Question {
 					op2=stack.pop();
 					op1=stack.pop();
 					stack.push( new Div(op1,op2));break;
+				case "sin":
+					op1=stack.pop();
+					stack.push(new Sin(op1));break;
+				case "cos":
+					op1=stack.pop();
+					stack.push(new Cos(op1));break;
+				case "tan":
+					op1=stack.pop();
+					stack.push(new Tan(op1));break;
+				case "abs":
+					op1=stack.pop();
+					stack.push(new Abs(op1));break;
+				case "Asin":
+					op1=stack.pop();
+					stack.push(new Asin(op1));break;
+				case "Atan":
+					op1=stack.pop();
+					stack.push(new Atan(op1));break;
+				case "neg":
+					op1=stack.pop();
+					stack.push(new Neg(op1));break;
+				case "sqrt":
+					op1=stack.pop();
+					stack.push(new Sqrt(op1));break;	
 				default:break;
 				}
 
@@ -161,10 +193,10 @@ public class Equation extends Question {
 	
 	public static void main(String[] args){
 	
-		String[] s = {"3","x","2","*","+"};
-		Expression e = Equation.parseRPN(s);
+		String[] s = {"1","+","2","*","sin","(","x","+","y",")"};
+		Expression e = Equation.parseInfix(s);
 		StringBuilder b = new StringBuilder();
-		e.infixReplaceVar(b);
+		e.infix(b);
 		System.out.println(b.toString());
 	}
 	/*
