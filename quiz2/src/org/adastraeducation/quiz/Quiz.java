@@ -49,9 +49,13 @@ public class Quiz {
 	}
 	public void writeHTMLContents(StringBuilder b) {
 		b.append("<div style='background-color: #007020;'>");
+		b.append("<form method=\"GET\" action=\"gradeQuiz.jsp\">");
+
 		for (Question q : questions) {
 			q.writeHTML(b);
-		}		
+		}
+		b.append("<input type=\"submit\" />");
+		b.append("</form>");
 		b.append("<div>");
 	}
 	private void writeHTML(String filename) {
