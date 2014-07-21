@@ -47,14 +47,16 @@ public class Quiz {
 		questions.add(q);
 		q.setName("q" + questions.size());
 	}
-	
+	public void writeHTMLContents(StringBuilder b) {
+		b.append("<div style='background-color: #007020;'>");
+		for (Question q : questions) {
+			q.writeHTML(b);
+		}		
+		b.append("<div>");
+	}
 	private void writeHTML(String filename) {
 		StringBuilder html = new StringBuilder();
-
-		html.append("<!DOCTYPE html>\n<html><body>");
-		writeHTML(html);
-		html.append("</body></html>");
-
+		writeHTMLContents(html);
 		try {
  			PrintWriter pw = new PrintWriter(filename);
  			pw.println(html);
@@ -78,7 +80,7 @@ public class Quiz {
 		}
 	}
 
-	private static void testAllQuestionsTogether() {
+	public static Quiz buildSampleQuiz() {
 		Quiz quiz = new Quiz();
 		
 		MultiChoice.testHTMLAndXML(quiz);
@@ -86,6 +88,11 @@ public class Quiz {
 		Match.testHTMLAndXML(quiz);
 		//MultiAnswer.testHTMLAndXML(quiz);
 		Equation.testHTMLAndXML(quiz);
+		return quiz;
+	}
+	
+	private static void testAllQuestionsTogether() {
+		Quiz quiz = buildSampleQuiz();
 		quiz.writeHTML("html/quiz.html");
 		quiz.writeXML("html/quiz.xml");
 	}
