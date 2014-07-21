@@ -53,7 +53,8 @@ public class Match extends Question {
 			b.append("<li/>");
 
 			if (imgQuestions)
-				b.append("<br/><img src=\"../img/temp/").append(questions[i]).append("\" width=\"200\" height=\"140\"")
+				b.append("<br/><img src=\"../img/temp/")
+					.append(questions[i]).append("\" width=\"200\" height=\"140\"")
 				.append(">");//modification
 			else 
 				b.append("<p1/>").append(questions[i]);//modification
