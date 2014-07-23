@@ -125,8 +125,7 @@ public abstract class Question {
 	 * write the three tags id, name and level called by all children in both
 	 * writeHTML and writeXML methods
 	 * 
-	 * @param b
-	 *            the buffer that accumulates the text for the HTML/XML
+	 * @param b the buffer that accumulates the text for the HTML/XML.
 	 */
 	protected void writeAttrs(StringBuilder b) {
 		writeAttr(b, "id", id);
