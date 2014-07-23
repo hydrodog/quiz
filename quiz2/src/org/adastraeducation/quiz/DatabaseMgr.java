@@ -1,81 +1,69 @@
 package org.adastraeducation.quiz;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.Stack;
 
 public class DatabaseMgr {
-	private Stack<Connection> connections;
+	private static Stack<Connection> connections = new Stack<Connection>();
+	private static Object lock = new Object();
+
 	static {
 		Properties p = new Properties(); // TODO: LOAD PROPERTIES!
-		p.load(new FileInputStream("conf/quiz.properties"));;
-		String driver = p.getProperty("driver");
-			String driver ="org.postgresql.Driver";
-			String url="jdbc:postgresql://localhost:5432/postgres";
-			String userName="postgres";
-			String password="65254408";
-			Class.forName(driver);
-			final int connections = p.getProperty("connections");
-			
-			for (int i = 0; i < connections; i++)
-				;; // create connections in list...
-			Connection conn=null;
-			Statement stmt=null;
-			String id = getId() +"";
-			String name = this.getName();
-			int level = this.getLevel();
-			StringBuilder b = new StringBuilder();
-			func.infix(b);
-			String question = b.toString();
-			double result = func.eval();		
-			//System.out.println(question);
-			//System.out.println(result);
-			try{
-				
-				System.out.println("Driver Successfully!");
-			}catch(ClassNotFoundException e){
-				System.err.print("ClassNotFoundException");
-			}
-			try{
-				conn=DriverManager.getConnection(url,userName,password);
-				System.out.println("connect database successfully!");
-				stmt = conn.createStatement();
-						
-				String sqlSelect="INSERT INTO equation VALUES("
-				+"'"+id+"','"+name+"',"+level+",'"+question+"',"+result+")";
-				
-				stmt.executeQuery(sqlSelect);
-							
-			}catch(SQLException e){
-				e.printStackTrace();
-			}finally{
-				try{
-					stmt.close();
-					if(conn!=null)
-						conn.close();
-				}catch(SQLException e){
-					e.printStackTrace();
-				}
-			}
+		try {
+			p.load(new FileInputStream("conf/quiz.properties"));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		
-		
+		String driver = p.getProperty("driver");
+		String url = p.getProperty("url");
+		String userName = p.getProperty("userName");
+		String password = p.getProperty("password");
+		//System.out.println(password);
+		final int connectionsCount = Integer.parseInt(p.getProperty("connectionsCount"));
+
+		Connection conn=null;
+
+		try{
+			Class.forName(driver);
+			System.out.println("Driver Successfully!");
+		}catch(ClassNotFoundException e){
+			System.err.print("ClassNotFoundException");
+		}
+
+		try {
+			conn = DriverManager.getConnection(url,userName,password);
+			System.out.println("Connect Successfully!");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// create connections in list...
+		for (int i = 0; i < connectionsCount; i++){
+			connections.push(conn);
+		}
 	}
 
-/**
- * use synchronized(obj) to allow only one user at a time 
- * if this code is multithreaded
- * @return
- */
-	private Object lock = new Object();
+	/**
+	 * use synchronized(obj) to allow only one user at a time 
+	 * if this code is multithreaded
+	 * @return
+	 */
 	public static Connection getConnection() {
 		synchronized(lock) {
 			if (connections.isEmpty()) {
-			
+				System.out.println("Stack Empty!");
+				return null;
 			}
 			return connections.pop();
 		}
@@ -84,11 +72,57 @@ public class DatabaseMgr {
 	/*
 	 * Before giving back the connection, you must CLOSE your statement.
 	 */
-	public void returnConnection(Connection c) {
+	public static void returnConnection(Connection c) {
 		synchronized(lock) {
-			stack.push(c);
-		
+			connections.push(c);
 		}
+	}
+	
+	
+	//do the select query
+	public static ResultSet select(String sql){
+		Connection conn = DatabaseMgr.getConnection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				stmt.close();
+				if(conn!=null)
+					conn.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+
+			}
+		}
+		returnConnection(conn);
+		return rs;
+	}
+	
+	//do the update query like insert, delete or update
+	public static void update(String sql){
+		Connection conn = DatabaseMgr.getConnection();
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				stmt.close();
+				if(conn!=null)
+					conn.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+
+			}
+		}
+		returnConnection(conn);
 	}
 
 }

@@ -36,9 +36,9 @@ import org.adastraeducation.quiz.equation.Var;
  */
 
 public class Equation extends Question {
-	
+
 	private Expression func;
-	
+
 	public Equation(String title, String level, String question, Expression func){
 		super(title, level, question, false);
 		this.func = func;
@@ -58,62 +58,15 @@ public class Equation extends Question {
 		func.infix(b);
 		b.append("\"></Question>");
 	}
-	
-	public void writeDatabase(){
-		
-		String driver ="org.postgresql.Driver";
-		String url="jdbc:postgresql://localhost:5432/postgres";
-		String userName="postgres";
-		String password="65254408";
-		
-		Connection conn=null;
-		Statement stmt=null;
-		String id = getId() +"";
-		String name = this.getName();
-		int level = this.getLevel();
-		StringBuilder b = new StringBuilder();
-		func.infix(b);
-		String question = b.toString();
-		double result = func.eval();		
-		//System.out.println(question);
-		//System.out.println(result);
-		try{
-			Class.forName(driver);
-			System.out.println("Driver Successfully!");
-		}catch(ClassNotFoundException e){
-			System.err.print("ClassNotFoundException");
-		}
-		try{
-			conn=DriverManager.getConnection(url,userName,password);
-			System.out.println("connect database successfully!");
-			stmt = conn.createStatement();
-					
-			String sqlSelect="INSERT INTO equation VALUES("
-			+"'"+id+"','"+name+"',"+level+",'"+question+"',"+result+")";
-			
-			stmt.executeQuery(sqlSelect);
-						
-		}catch(SQLException e){
-			e.printStackTrace();
-		}finally{
-			try{
-				stmt.close();
-				if(conn!=null)
-					conn.close();
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public static Expression parseInfix(String[] s){
+
+	public  Expression parseInfix(String[] s){
 		Tree t = new Tree(s);
 		String[] rpn = t.traverse();
-		
+
 		return parseRPN(rpn);
 	}
-	
-	public static Expression parseRPN(String[] s){
+
+	public  Expression parseRPN(String[] s){
 		Stack<Expression> stack = new Stack<Expression>();
 		String regex = "^[0-9]+$";
 		for(int i=0;i<s.length;i++){
@@ -179,34 +132,48 @@ public class Equation extends Question {
 			}
 		}
 		return stack.pop();
-		
+
 	}
-	
+
 	public static void testHTMLAndXML(Quiz quiz){
 		Var x = new Var("x",1,3,10);
 		Var y = new Var("y",1,3,10);
 
 		Equation e1 = new Equation("plus","2","",new Plus(x,y)); 
-		
+
 		quiz.addQuestion(e1);
 	}
-	
+
 	public static void main(String[] args){
-	
-		String[] s = {"1","+","2","*","sin","(","x","+","y",")"};
-		Expression e = Equation.parseInfix(s);
+		Var x = new Var("x",1,3,10);
+		Var y = new Var("y",1,3,10);
+
+		Equation e1 = new Equation("plus","2","",new Plus(x,y)); 
+
+		int id = e1.getId();
+		String name = e1.getName();
+		String title = e1.getTitle();
+		int level = e1.getLevel();
 		StringBuilder b = new StringBuilder();
-		e.infix(b);
-		System.out.println(b.toString());
+		e1.func.infix(b);
+		String question = b.toString();
+		b.setLength(0);
+		e1.func.infixReplaceVar(b);
+		String questionReplaceVar = b.toString();
+		String sql ="insert into quiz values("+id+",'"+name+"','"+title+"',"+level+",'"+question+"','"
+				+questionReplaceVar+"',"+false+");";
+		System.out.println(sql);
+		DatabaseMgr.update(sql);
+
 	}
 	/*
 	public static void main(String[] args){
 		Var x = new Var("x",1,2,20);
 		Var y = new Var("y",5,3,36);
-		
+
 		Plus func = new Plus(x,y);
 		Equation eq = new Equation("103","Plus",1,func);
-		
+
 		StringBuilder b = new StringBuilder();
 		b.append("<%@ page contentType=\"text/html\" pageEncoding=\"UTF-8\" %>");
 		b.append("<html><head>");
@@ -239,8 +206,8 @@ public class Equation extends Question {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//eq.writeDatabase();
 	}
-	*/
+	 */
 }
