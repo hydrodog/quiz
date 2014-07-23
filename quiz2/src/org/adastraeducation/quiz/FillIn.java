@@ -2,17 +2,16 @@ package org.adastraeducation.quiz;
 
 import java.io.FileNotFoundException;
 //import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class FillIn extends Question{
 	
-	private FillInAnswer[] fillInAnswers;
+	private ArrayList<FillInAnswer> fillInAnswers;
+//	private String userAnswer;
 
-	public FillIn(String title, String level, String question, String[] answerList, boolean imgQuestion) {
+	public FillIn(String title, String level, String question, boolean imgQuestion) {
 		super(title, level, question, imgQuestion);
-		this.fillInAnswers = new FillInAnswer[answerList.length/2];
-		for(int i = 0; i < this.fillInAnswers.length; i++) {
-			this.fillInAnswers[i] = new FillInAnswer(answerList[i*2], answerList[i*2+1].equals("t"));
-		}
+		this.fillInAnswers = new ArrayList<FillInAnswer>();
 	}
 	
 //	public void addFillInAnswer(String answerList) {}
@@ -22,7 +21,10 @@ public class FillIn extends Question{
 //	}
 	
 	public String getTagName() { return "FillIn"; }
-	
+//	public void setUserAnswer(String userAnswer) {
+//		this.userAnswer = userAnswer;
+//	}
+
 	public void writeHTMLContent(StringBuilder b) {
 		b.append("<input type=\"text\" ");
 		super.writeAttr(b, "name", getName());
@@ -30,14 +32,27 @@ public class FillIn extends Question{
 	}
 	public void writeXMLContent(StringBuilder b) {
 		super.endTagWriteQuestion(b);
-		for(int i = 0; i < this.fillInAnswers.length; i++) {
-			this.fillInAnswers[i].writeXML(b);
+		for(int i = 0; i < this.fillInAnswers.size(); i++) {
+			this.fillInAnswers.get(i).writeXML(b);
 		}
 	}
 	public static void testHTMLAndXML(Quiz quiz) {
-		String[] answerList1 = {"120", "t", "120.0", "t", "12", "f"};
-		FillIn f1 = new FillIn("arithmetic", "1", "What is 30 x 4?", answerList1, false);
+		FillIn f1 = new FillIn("arithmetic", "1", "What is 30 x 4?", false);
+		FillInAnswer a1 = new FillInAnswer();
+		a1.setAnswerByKeyword("120");
+		a1.setScore(5);
+		f1.fillInAnswers.add(a1);
 		quiz.addQuestion(f1);
+	}
+	
+	public double gradeUserAnswer(String userAnswer) {
+		double score = 0;
+		for(FillInAnswer f: this.fillInAnswers) {
+			if(userAnswer.matches(f.getAnswerRegex())) {
+				score = f.getScore();
+			}
+		}
+		return score;
 	}
 //	public static void main(String[] args) {
 //		StringBuilder b = new StringBuilder();
