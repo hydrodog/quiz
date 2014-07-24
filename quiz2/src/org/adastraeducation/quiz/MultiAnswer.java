@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cpe642;
+package org.adastraeducation.quiz;
 /**
  *
  * @author zhangchenyi
@@ -17,49 +17,37 @@ public class MultiAnswer extends Question{
     private final MultiAnswer_Answer Answers[];
     private final String desc;
     
-    MultiAnswer(int num_selection, String id, String name, String desc, String Answer[], boolean results[])
-    {
+    MultiAnswer(int num_selection, String id, String name, String desc, 
+    		String Answer[], boolean results[]) {
          this.num_selection = num_selection;
          this.name = name;
          this.id = id;
          this.desc = desc;
          
          this.Answers = new MultiAnswer_Answer[this.num_selection];
-         for(int i =0;i<this.num_selection;i++)
-         {
+         for(int i =0;i<this.num_selection;i++) {
              this.Answers[i] = new MultiAnswer_Answer(Answer[i],results[i]);
          } 
     }
 
-    @Override
-    public void writeHTML(StringBuilder b) {
-        String result="";
+    public String getTagName() { return "MultiAnswer"; }
     
-        
-        result = this.desc +"\n";
-        for(int i =0;i<this.num_selection;i++)
-            {
-                result = result + "<input type = \"checkbox\" name = \""+this.name+"\" ";
-                result = result + this.Answers[i].get_answer_HTML();
+    @Override
+    public void writeHTMLContent(StringBuilder b) {
+       b.append(this.desc).append('\n');
+        for (int i = 0; i < this.num_selection; i++) {
+                b.append("<input type = \"checkbox\" name = \"").append(name)
+                .append("\" ").append(this.Answers[i].get_answer_HTML());
             }
-        
-        
-        b.append(result);
     }
 
     @Override
-    public void writeXML(StringBuilder b) {
-        String result;
-        
-        result = "<MultiAnswer id=\""+this.id+"\" name=\""+this.name+"\" level=\"1\">\n"
-                    +this.desc+"\n";
-        
-        for(int i =0;i<this.num_selection;i++)
-        {
-            result = result + Answers[i].get_answer_XML();
+    public void writeXMLContent(StringBuilder b) {
+    	endTagWriteQuestion(b);
+    	b.append(desc).append('\n');
+      
+        for (int i = 0; i < this.num_selection; i++) {
+            b.append(Answers[i].get_answer_XML());
         }
-        
-        result = result + "</MultiAnswer>";
-        b.append(result);
     }
 }

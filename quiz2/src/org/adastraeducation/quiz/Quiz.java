@@ -1,6 +1,8 @@
 package org.adastraeducation.quiz;
 import java.io.*;
 import java.lang.reflect.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class Quiz {
@@ -10,6 +12,27 @@ public class Quiz {
 		questions = new ArrayList<Question>();
 	}
 	
+	/*
+	 * Temporarily, load the test quiz so we can display in JSP
+	 * Eventually, load from database
+	 */
+	public void load(int id) {
+		/*
+		 * TODO: Database logic looks something like this
+		 * Open questions: design of database?
+		 * Move all database code out of individual classes?
+		Connection conn = DatabaseMgr.getConnection();
+		PreparedStatement getQuizInfo = conn.prepareStatement
+				("SELECT id, name, instructions FROM QUIZZES WHERE id = ?");
+		getQuizInfo.setInt(1, id);
+		PreparedStatement getQuizQuestions = conn.prepareStatement
+				("SELECT qid, title, question, imgQuestion FROM Questions,QuestionMatch " +
+		"WHERE quizid = ? AND Questions.qid = QuestionsMatch.qid");
+		getQuizQuestions.setInt(1, id);
+		*/
+		addToQuiz();
+	}
+		
 	/*
 	 * Write out the HTML for a quiz.  The quiz is in charge of 
 	 * generating the form, and making sure that each question 
@@ -84,14 +107,16 @@ public class Quiz {
 		}
 	}
 
+	private void addToQuiz() {
+		MultiChoice.testHTMLAndXML(this);
+		FillIn.testHTMLAndXML(this);
+		Match.testHTMLAndXML(this);
+		//MultiAnswer.testHTMLAndXML(this);
+		Equation.testHTMLAndXML(this);
+	}
 	public static Quiz buildSampleQuiz() {
 		Quiz quiz = new Quiz();
-		
-		MultiChoice.testHTMLAndXML(quiz);
-		FillIn.testHTMLAndXML(quiz);
-		Match.testHTMLAndXML(quiz);
-		//MultiAnswer.testHTMLAndXML(quiz);
-		Equation.testHTMLAndXML(quiz);
+		quiz.addToQuiz();
 		return quiz;
 	}
 	
