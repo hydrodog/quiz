@@ -11,6 +11,12 @@ public class Quiz {
 	public Quiz() {
 		questions = new ArrayList<Question>();
 	}
+	/*
+	 * get questionlist from quiz
+	 */
+	public ArrayList<Question> getQuestion(){
+		return questions;
+	}
 	
 	/*
 	 * Temporarily, load the test quiz so we can display in JSP

@@ -15,6 +15,7 @@ public class Functions {
 			put("+",1);
 			put("-",1);
 			put("*",2);
+			put("/",2);
 			put("abs",3);
 			put("asin",3);
 			put("atan",3);
