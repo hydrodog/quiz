@@ -34,6 +34,7 @@ public class CodeQuestion extends Question {
 	public String getTagName() {		
 		return "Code";
 	}
+	
 
 	@Override
 	public void writeHTMLContent(StringBuilder b) {
@@ -46,6 +47,20 @@ public class CodeQuestion extends Question {
 	public void writeXMLContent(StringBuilder b) {
 		super.endTagWriteQuestion(b);		
 		answer.writeXML();
+	}
+
+
+	@Override
+	public boolean isCorrect(String ans) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public double score() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

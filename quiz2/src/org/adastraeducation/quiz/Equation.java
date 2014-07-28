@@ -191,5 +191,17 @@ public class Equation extends Question {
 		e.infix(b);
 		System.out.println(b);
 	}
+
+	@Override
+	public boolean isCorrect(String ans) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double score() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

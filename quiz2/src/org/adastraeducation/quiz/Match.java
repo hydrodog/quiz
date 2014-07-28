@@ -16,6 +16,7 @@ public class Match extends Question {
 	private boolean imgAnswers;
 
 
+	private int[] qid;
 	private String[] questions;
 	private boolean imgQuestions;
 
@@ -84,4 +85,17 @@ public class Match extends Question {
 		for(int i = 0; i < answers.length ; i++) 
 			b.append("A m=\" \">").append(answers[i]).append("/A");	//TODO: the value of m?	
 	}
+
+	@Override
+	public boolean isCorrect(String[] ans) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double gradeIt(String[] answers) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

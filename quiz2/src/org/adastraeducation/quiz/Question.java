@@ -152,13 +152,6 @@ public abstract class Question {
 		b.append("</div>");
 	}
 
-	public abstract String getTagName();
-	
-	/*
-	 * check each question if it is correct
-	 */
-	public abstract boolean isCorrect(String ans);
-
 	/*
 	 * Write out the XML tag name and the basic attributes in common for all
 	 * question types Example: <MultiChoice id="q1" name="dynosaur" level="1"
@@ -170,6 +163,14 @@ public abstract class Question {
 		writeXMLContent(b);
 		b.append("</").append(getTagName()).append(">\n");
 	}
+
+	public abstract String getTagName();
+	
+	/*
+	 * check each question if it is correct
+	 */
+	public abstract boolean isCorrect(String[] ans);
+	public abstract double gradeIt(String[] answers);
 
 	public abstract void writeHTMLContent(StringBuilder b);
 

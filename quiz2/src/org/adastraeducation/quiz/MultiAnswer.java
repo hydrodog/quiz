@@ -50,4 +50,16 @@ public class MultiAnswer extends Question{
             b.append(Answers[i].get_answer_XML());
         }
     }
+
+	@Override
+	public boolean isCorrect(String[] ans) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double gradeIt(String[] answers) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
