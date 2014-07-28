@@ -10,7 +10,7 @@ CREATE TABLE Questions IF NOT EXISTS (
 CREATE TABLE Answers IF NOT EXISTS (
   qid integer(8),
   aid integer(2),
-  primary key (aid,qid),
+  primary key (qid,aid),
   image varchar(256),
   text varchar(256)
 );
