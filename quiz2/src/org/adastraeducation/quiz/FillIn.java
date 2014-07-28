@@ -83,5 +83,29 @@ public class FillIn extends Question{
 //		}
 //	}
 
+	@Override
+	public boolean isCorrect(String ans) {
+		for(FillInAnswer fa: this.fillInAnswers) {
+			if(ans.matches(fa.getAnswerRegex())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public double gradeIt(String ans) {
+		double result = 0;
+		for(FillInAnswer fa: this.fillInAnswers) {
+			if(ans.matches(fa.getAnswerRegex())) {
+				double temp = fa.getScore();
+				if(temp > result) {
+					result = temp;
+				}
+			}
+		}
+		return result;
+	}
+
 
 }

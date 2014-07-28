@@ -8,6 +8,10 @@ import java.util.ArrayList;
 public class Quiz {
 	private ArrayList<Question> questions;
 	
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+
 	public Quiz() {
 		questions = new ArrayList<Question>();
 	}
@@ -72,7 +76,7 @@ public class Quiz {
 	}
 	public void writeHTMLContents(StringBuilder b) {
 		b.append("<div style='background-color: #007020;'>");
-		b.append("<form method=\"GET\" action=\"gradeQuiz.jsp\">");
+		b.append("<form method=\"GET\" action=\"../web/GradeQuiz.jsp\">");
 
 		for (Question q : questions) {
 			q.writeHTML(b);
@@ -157,6 +161,15 @@ public class Quiz {
 		} catch (Exception e) {
 				e.printStackTrace(); // class not found? Some other problem?
 		}		
+	}
+	
+	public Question getQuestionByName(String qName) {
+		int qIndex = Integer.parseInt(qName.substring(1, qName.length()));
+		if(qName.matches("q[1-9]\\d*") && qIndex <= questions.size()) {
+			return questions.get(qIndex);
+		} else {
+			return null;
+		}
 	}
 
 	public static void main(String []args){	

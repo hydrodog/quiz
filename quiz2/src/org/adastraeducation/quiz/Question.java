@@ -158,6 +158,7 @@ public abstract class Question {
 	 * check each question if it is correct
 	 */
 	public abstract boolean isCorrect(String ans);
+	public abstract double gradeIt(String ans);
 
 	/*
 	 * Write out the XML tag name and the basic attributes in common for all

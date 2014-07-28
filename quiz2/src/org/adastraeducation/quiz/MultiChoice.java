@@ -23,6 +23,7 @@ public class MultiChoice extends Question {
 		for(int i = 0, j = 0; i < this.answers.length; i++,j+=2)
 		{
 			this.answers[i] = new MultiChoiceAnswer(answers[j], answers[j+1].equals("t"));
+			this.answers[i].setIndex(Integer.toString(i));
 		}
 		this.imgAnswer = imgAnswer.equals("t");
 	}
@@ -65,16 +66,6 @@ public class MultiChoice extends Question {
 	
 	public String getTagName() { return "MultiChoice"; }
 	
-	public boolean isCorrect(String ans){
-		for(int i = 0; i < answers.length; i++) {
-			if(answers[i].getCorrect()){
-				if(ans.equals(answers[i].getAnswer()))
-					return true;
-			}
-		}
-		return false;
-	}
-	
 	public void writeHTMLContent(StringBuilder b) {
 		//b.append("<form id=\"").append(id).append("\" name=\"").append("q1").append("\">");
 		if(this.stdchoice == null)
@@ -98,6 +89,15 @@ public class MultiChoice extends Question {
 			}
 		else
 			this.stdchoice.writeXML(b);
+	}
+	
+	public boolean isCorrect(String index){
+		return this.answers[Integer.parseInt(index)].getCorrect();
+	}
+	
+	@Override
+	public double gradeIt(String index) {
+		return this.answers[Integer.parseInt(index)].getScore();
 	}
 }
 
