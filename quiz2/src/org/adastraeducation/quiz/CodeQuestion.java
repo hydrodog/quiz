@@ -29,6 +29,45 @@ public class CodeQuestion extends Question {
 	
 	/** The answer to the code question. It can be an output, matching code or expected pseudocode */
 	private Answer answer;
+	
+	public CodeQuestion() {}
+	
+	public CodeQuestion(String initialCode, String answer) {
+		this.initialCode = initialCode;
+		this.answer = new Answer(answer, true);
+	}
+	
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getInitialCode() {
+		return initialCode;
+	}
+
+	public void setInitialCode(String initialCode) {
+		this.initialCode = initialCode;
+	}
+
+	public int getExpectedAnswerLength() {
+		return expectedAnswerLength;
+	}
+
+	public void setExpectedAnswerLength(int expectedAnswerLength) {
+		this.expectedAnswerLength = expectedAnswerLength;
+	}
+
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
 
 	@Override
 	public String getTagName() {		
@@ -38,7 +77,7 @@ public class CodeQuestion extends Question {
 
 	@Override
 	public void writeHTMLContent(StringBuilder b) {
-		b.append("<textarea rows=\""+ expectedAnswerLength/80 +"\" cols=\""+ 80 +"\" ");
+		b.append("<textarea class=\"code\" rows=\""+ expectedAnswerLength/80 +"\" cols=\""+ 80 +"\" ");
 		super.writeAttr(b, "name", getName());
 		b.append(">"+ initialCode +"</textarea>\n");
 	}
@@ -51,14 +90,14 @@ public class CodeQuestion extends Question {
 
 
 	@Override
-	public boolean isCorrect(String ans) {
+	public boolean isCorrect(String[] ans) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 
 	@Override
-	public double score() {
+	public double gradeIt(String[] answers) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

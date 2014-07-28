@@ -193,15 +193,16 @@ public class Equation extends Question {
 	}
 
 	@Override
-	public boolean isCorrect(String ans) {
+	public boolean isCorrect(String[] ans) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public double score() {
+	public double gradeIt(String[] answers) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	
 }
