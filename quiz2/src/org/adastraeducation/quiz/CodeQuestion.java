@@ -35,6 +35,7 @@ public class CodeQuestion extends Question {
 	public CodeQuestion(String initialCode, String answer) {
 		this.initialCode = initialCode;
 		this.answer = new Answer(answer, true);
+		expectedAnswerLength = 800;
 	}
 	
 	public String getLanguage() {
