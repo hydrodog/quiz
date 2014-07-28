@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.adastraeducation.quiz;
+package cpe642;
 import java.sql.*;
 /**
  *
@@ -26,8 +26,8 @@ public class Mysql_Connector {
     
     Mysql_Connector()
     {
-        this.url = "jdbc:mysql://localhost/chenyi";
-        this.user = "chenyi";
+        this.url = "jdbc:mysql://127.0.0.1:5500/test";
+        this.user = "root";
         this.pw = "";
     }
     
@@ -38,6 +38,10 @@ public class Mysql_Connector {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             
             con = DriverManager.getConnection(url, user, pw);
+            
+            //String sql= "SELECT * FROM USERS;";
+            
+            
             
             System.out.println("Connected");
             
@@ -69,7 +73,7 @@ public class Mysql_Connector {
                        if(res.next())
                         {
                            ret_id = res.getInt(1);
-                           System.out.print(ret_id);
+                           //System.out.print(ret_id);
                         }
                    } 
                    
@@ -106,7 +110,6 @@ public class Mysql_Connector {
                    } 
                    
                    catch(SQLException e)
-                   
                    {
                        System.out.println("MYSQL ERROR" + e.getMessage());
                    }
