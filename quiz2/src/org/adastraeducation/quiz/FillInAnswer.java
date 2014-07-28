@@ -1,21 +1,28 @@
 package org.adastraeducation.quiz;
 
-public class FillInAnswer extends Answer{
-	private String answer;
+public class FillInAnswer{
+	private String answerRegex;
 	private boolean correct;
-	private String response;
+	private double score;
+	//private String response;
 	
-	public FillInAnswer(String answer, boolean correct) {
-		this.answer = answer;
+	public FillInAnswer() {
+		this.answerRegex = ".*";
+		this.correct = true;
+		//this.response = null;
+	}
+	
+	public FillInAnswer(String answerRegex, boolean correct) {
+		this.answerRegex = answerRegex;
 		this.correct = correct;
-		this.response = null;
+		//this.response = null;
 	}
 	
-	public void setAnswer(String answer) {
-		this.answer = answer;
+	public void setAnswerByKeyword(String keyword) {
+		this.answerRegex = ".*(\\s+)" + keyword + "(\\s+).*";
 	}
-	public String getAnswer() {
-		return this.answer;
+	public String getAnswerRegex() {
+		return this.answerRegex;
 	}
 	public void setCorrect(String correct) {
 		this.correct = correct.equals("t");
@@ -23,14 +30,20 @@ public class FillInAnswer extends Answer{
 	public boolean getCorrect() {
 		return this.correct;
 	}
-	public void setReminder(String reminder) {
-		this.response = reminder;
+	public void setScore(double score) {
+		this.score = score;
 	}
-	public String getReminder() {
-		return this.response;
+	public double getScore() {
+		return this.score;
 	}
+//	public void setReminder(String reminder) {
+//		this.response = reminder;
+//	}
+//	public String getReminder() {
+//		return this.response;
+//	}
 	
 	public void writeXML(StringBuilder b) {
-		b.append("\n<A correct=\"").append(correct? "t" : "f").append("\">").append(answer).append("</A>");
+		b.append("\n<A correct=\"").append(correct? "t" : "f").append("\">").append(answerRegex).append("</A>");
 	}
 }

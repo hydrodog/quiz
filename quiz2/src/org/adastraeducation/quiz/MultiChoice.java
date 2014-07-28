@@ -11,18 +11,18 @@ import java.io.PrintWriter;
  */
 
 public class MultiChoice extends Question {
-	private Answer[] answers;
+	private MultiChoiceAnswer[] answers;
 	private StdChoice stdchoice;
 	private boolean imgAnswer;
-
+	
 	public MultiChoice() {}
 	
 	public MultiChoice(String title, String level, String question, String imgQuestion, String[] answers, String imgAnswer){
 		super(title, level, question, imgQuestion.equals("t"));
-		this.answers = new Answer[answers.length/2];
+		this.answers = new MultiChoiceAnswer[answers.length/2];
 		for(int i = 0, j = 0; i < this.answers.length; i++,j+=2)
 		{
-			this.answers[i] = new Answer(answers[j], answers[j+1].equals("t"));
+			this.answers[i] = new MultiChoiceAnswer(answers[j], answers[j+1].equals("t"));
 		}
 		this.imgAnswer = imgAnswer.equals("t");
 	}
@@ -32,11 +32,11 @@ public class MultiChoice extends Question {
 		//TODO: Make sure imgAnswer is correct!
 	}
 	public void addAnswer(String answer, boolean correct) {
-		Answer[] temp = answers; //TODO: this should be changed to ArrayList<Answer>!!!
+		MultiChoiceAnswer[] temp = answers; //TODO: this should be changed to ArrayList<Answer>!!!
 		
-		answers = new Answer[temp.length+1];
+		answers = new MultiChoiceAnswer[temp.length+1];
 		System.arraycopy(temp, 0, answers, 0, temp.length);
-		answers[temp.length] = new Answer(answer, correct);
+		answers[temp.length] = new MultiChoiceAnswer(answer, correct);
 	}
 	public static void testHTMLAndXML(Quiz quiz){
 		String []ans1 = { "A dynosaur", "t", "A fish", "f", "A primate", "f", "A mammal", "f"};
