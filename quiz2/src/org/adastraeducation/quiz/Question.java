@@ -153,6 +153,11 @@ public abstract class Question {
 	}
 
 	public abstract String getTagName();
+	
+	/*
+	 * check each question if it is correct
+	 */
+	public abstract boolean isCorrect(String ans);
 
 	/*
 	 * Write out the XML tag name and the basic attributes in common for all
