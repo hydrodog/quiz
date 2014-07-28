@@ -3,27 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cpe642;
+package org.adastraeducation.quiz;
 /**
  *
  * @author zhangchenyi
  */
-public class MultiAnswer extends Question{
+public class MultiAnswer extends Question {
     
     private final int num_selection;
-    private int level;
-    private final String id;
-    private final String name;
     private final MultiAnswer_Answer Answers[];
-    private final String desc;
     
-    
-    MultiAnswer(int num_selection, String id, String name, String desc, String Answer[], String Image[],boolean results[])
+    public MultiAnswer(int num_selection, String title, String question, String Answer[], String Image[],boolean results[])
     {
+    	super(title, "1", question, false);
          this.num_selection = num_selection;
-         this.name = name;
-         this.id = id;
-         this.desc = desc;
          
          this.Answers = new MultiAnswer_Answer[this.num_selection];
          for(int i =0;i<this.num_selection;i++)
@@ -32,37 +25,7 @@ public class MultiAnswer extends Question{
          } 
     }
 
-    @Override
-    public void writeHTML(StringBuilder b) {
-        String result="";
-    
-        
-        result = this.desc +"\n<br/>";
-        for(int i =0;i<this.num_selection;i++)
-            {
-                result = result + "<input type = \"checkbox\"name = \""+this.name+i+"\" ";
-                result = result + this.Answers[i].get_answer_HTML();
-            }
-        
-        
-        b.append(result);
-    }
-
-    @Override
-    public void writeXML(StringBuilder b) {
-        String result;
-        
-        result = "<MultiAnswer id=\""+this.id+"\" name=\""+this.name+"\" level=\"1\">\n"
-                    +this.desc+"\n";
-        
-        for(int i =0;i<this.num_selection;i++)
-        {
-            result = result + Answers[i].get_answer_XML();
-        }
-        
-        result = result + "</MultiAnswer>";
-        b.append(result);
-    }
+ 
     
     public void testXMLAndHTML()
     {
@@ -110,5 +73,30 @@ public class MultiAnswer extends Question{
 	public double gradeIt(String[] answers) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String getTagName() {
+		// TODO Auto-generated method stub
+		return "MultiAnswer";
+	}
+
+	@Override
+	public void writeHTMLContent(StringBuilder b) {
+	   for(int i =0;i<this.num_selection;i++)
+       {
+           b.append("<input type = \"checkbox\"name = \"")
+           .append(getName()).append(i).append("\" ")
+           .append(this.Answers[i].get_answer_HTML());
+       }
+	}
+
+	@Override
+	public void writeXMLContent(StringBuilder b) {
+		endTagWriteQuestion(b);
+        for(int i =0;i<this.num_selection;i++)
+        {
+            b.append(Answers[i].get_answer_XML());
+        }
 	}
 }
