@@ -1,6 +1,7 @@
 package org.adastraeducation.quiz.equation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //the Node used to construct the tree
 class Node<T> {
@@ -22,16 +23,16 @@ public class Tree {
 	private Node<String> head;
 	private int len;
 
-	public Tree(String[] s) {
+	public Tree(ArrayList<String> s) {
 		head = null;
-		this.len = s.length;
+		this.len = s.size();
 		int i = 0;
 		int hierarchy = 1;  // an integer for detecting parenthesis to high or low the level
 		this.insert(s, i, hierarchy);
 	}
 
-	public void insert(String[] s, int i, int hierarchy) {
-		String use = s[i];
+	public void insert(ArrayList<String> s, int i, int hierarchy) {
+		String use = s.get(i);
 		int level = 0; // set the level for the operands
 		// set level
 		if (Functions.functions.contains(use)) {
@@ -70,18 +71,17 @@ public class Tree {
 			}
 		}
 		i++;
-		if (i > s.length - 1)
+		if (i > s.size() - 1)
 			return;
 		else
 			insert(s, i, hierarchy);
 	}
 
 	// get the traverse data
-	public String[] traverse() {
+	public ArrayList<String> traverse() {
 		ArrayList<String> array = new ArrayList<String>();
 		putdata(head, array);
-		String[] result = array.toArray(new String[array.size()]);
-		return result;
+		return array;
 	}
 
 	// traverse the tree
@@ -98,12 +98,13 @@ public class Tree {
 
 	public static void main(String[] args) {
 
-		String[] s = { "1", "+", "2", "*", "sin", "(", "x", "+", "y", ")" };
+		ArrayList<String> s = new ArrayList<String>(
+				Arrays.asList("1","+","2","*","sin","(","x",")"));
 
 		Tree t = new Tree(s);
-		String[] st = t.traverse();
-		for (int i = 0; i < st.length; i++) {
-			System.out.print(st[i]);
+		ArrayList<String> st = t.traverse();
+		for (int i = 0; i < st.size(); i++) {
+			System.out.print(st.get(i));
 		}
 	}
 }

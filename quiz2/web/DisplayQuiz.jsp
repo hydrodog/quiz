@@ -9,11 +9,11 @@
 </head>
 <body>
 	<h1>Quiz</h1>
-	<jsp:useBean id="quiz" class="org.adastraeducation.quiz.Quiz" scope="session"></jsp:useBean>
-    <%StringBuilder b = new StringBuilder();
-	  quiz=Quiz.buildSampleQuiz();
-	  quiz.writeHTML(b);%>
+    <%Quiz quiz = new Quiz();
+      StringBuilder b = new StringBuilder();
+	  quiz = Quiz.buildSampleQuiz();
+	  quiz.writeHTMLContents(b);
+	  request.getSession().setAttribute("QUIZ", quiz);%>
     <%= b %>
-    <input  type="submit" value="submit">
 </body>
 </html>

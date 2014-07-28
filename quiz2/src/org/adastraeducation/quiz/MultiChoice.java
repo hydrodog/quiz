@@ -65,6 +65,16 @@ public class MultiChoice extends Question {
 	
 	public String getTagName() { return "MultiChoice"; }
 	
+	public boolean isCorrect(String ans){
+		for(int i = 0; i < answers.length; i++) {
+			if(answers[i].getCorrect()){
+				if(ans.equals(answers[i].getAnswer()))
+					return true;
+			}
+		}
+		return false;
+	}
+	
 	public void writeHTMLContent(StringBuilder b) {
 		//b.append("<form id=\"").append(id).append("\" name=\"").append("q1").append("\">");
 		if(this.stdchoice == null)

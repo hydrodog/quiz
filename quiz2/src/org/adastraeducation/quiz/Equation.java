@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,10 +40,19 @@ public class Equation extends Question {
 
 	private Expression func;
 
+	public Equation(String title, String level, String question){
+		super(title, level, question, false);
+	}
+	
 	public Equation(String title, String level, String question, Expression func){
 		super(title, level, question, false);
 		this.func = func;
 	}
+	
+	public void setExpression(Expression e){
+		this.func=e;
+	}
+	
 
 	public String getTagName() { return "Equation"; }
 	@Override
@@ -59,18 +69,18 @@ public class Equation extends Question {
 		b.append("\"></Question>");
 	}
 
-	public  Expression parseInfix(String[] s){
+	public  Expression parseInfix(ArrayList<String> s){
 		Tree t = new Tree(s);
-		String[] rpn = t.traverse();
+		ArrayList<String> rpn = t.traverse();
 
 		return parseRPN(rpn);
 	}
 
-	public  Expression parseRPN(String[] s){
+	public  Expression parseRPN(ArrayList<String> s){
 		Stack<Expression> stack = new Stack<Expression>();
 		String regex = "^[0-9]+$";
-		for(int i=0;i<s.length;i++){
-			String temp = s[i];
+		for(int i=0;i<s.size();i++){
+			String temp = s.get(i);
 			if(Functions.functions.contains(temp)){
 				Expression op1 ;
 				Expression op2 ;
@@ -119,6 +129,9 @@ public class Equation extends Question {
 				}
 
 			}
+			//deal with the space
+			else if(temp.equals(""))
+				;
 			else{
 				Pattern p = Pattern.compile(regex);
 				Matcher m = p.matcher(temp);
@@ -134,6 +147,26 @@ public class Equation extends Question {
 		return stack.pop();
 
 	}
+	
+	public ArrayList<String> parseQuestion(String question){
+		
+		ArrayList<String> s = new ArrayList<String>();
+		int beginIndex=0;
+		
+		for(int i=0;i<question.trim().length();i++){
+			if(question.charAt(i)>32&&question.charAt(i)<48)
+			{
+				if(beginIndex!=i)
+				    s.add( question.substring(beginIndex, i));
+				s.add(String.valueOf(question.charAt(i)));
+				beginIndex = i+1;
+			}
+		}
+		if(beginIndex!=question.length())
+		    s.add( question.substring(beginIndex, question.length()));
+		
+		return s;
+	}
 
 	public static void testHTMLAndXML(Quiz quiz){
 		Var x = new Var("x",1,3,10);
@@ -148,66 +181,15 @@ public class Equation extends Question {
 		Var x = new Var("x",1,3,10);
 		Var y = new Var("y",1,3,10);
 
-		Equation e1 = new Equation("plus","2","",new Plus(x,y)); 
-
-		int id = e1.getId();
-		String name = e1.getName();
-		String title = e1.getTitle();
-		int level = e1.getLevel();
+		Equation e1 = new Equation("plus","2",""); 
+		
+		String q = "2+3*sin(x)-6/4";
+		ArrayList<String> temp = e1.parseQuestion(q);
+		Expression e = e1.parseInfix(temp);
+		e1.setExpression(e);
 		StringBuilder b = new StringBuilder();
-		e1.func.infix(b);
-		String question = b.toString();
-		b.setLength(0);
-		e1.func.infixReplaceVar(b);
-		String questionReplaceVar = b.toString();
-		String sql ="insert into quiz values("+id+",'"+name+"','"+title+"',"+level+",'"+question+"','"
-				+questionReplaceVar+"',"+false+");";
-		System.out.println(sql);
-		DatabaseMgr.update(sql);
-
+		e.infix(b);
+		System.out.println(b);
 	}
-	/*
-	public static void main(String[] args){
-		Var x = new Var("x",1,2,20);
-		Var y = new Var("y",5,3,36);
-
-		Plus func = new Plus(x,y);
-		Equation eq = new Equation("103","Plus",1,func);
-
-		StringBuilder b = new StringBuilder();
-		b.append("<%@ page contentType=\"text/html\" pageEncoding=\"UTF-8\" %>");
-		b.append("<html><head>");
-        b.append("<meta http-equiv=\"Content-Type\" content=\"text/html\"; charset=\"UTF-8\">");
-        b.append("<title>Equation</title></head>");
-        b.append("<body>");
-        eq.writeHTML(b);
-        b.append("</body></html>");
-		try {
-			PrintWriter pw = new PrintWriter("/Users/wyz/Documents/tomcat/webapps/Equation/equation.jsp");
-			pw.println(b);
-			pw.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		b.setLength(0);
-		b.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-		b.append("\n");
-		b.append("<!DOCTYPE web-app PUBLIC \"-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN\"");
-		b.append("\n");
-		b.append("\"http://java.sun.com/dtd/web-app_2_3.dtd\">");
-		b.append("\n");
-		eq.writeXML(b);
-		try {
-			PrintWriter pw = new PrintWriter("/Users/wyz/Documents/tomcat/webapps/Equation/WEB-INF/web.xml");
-			pw.println(b);
-			pw.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		//eq.writeDatabase();
-	}
-	 */
+	
 }
