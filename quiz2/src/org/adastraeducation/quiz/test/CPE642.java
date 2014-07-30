@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import org.adastraeducation.quiz.MultiAnswer;
-import org.adastraeducation.quiz.Mysql_Connector;
 
 /**
  *

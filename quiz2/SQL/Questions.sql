@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Answers  (
   primary key (qid,aid),
   image varchar(256),
   text varchar(256),
-  correct integer(1),
+  correct char(1),
   response varchar(256) -- information to display if this answer selected
 );
 

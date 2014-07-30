@@ -118,7 +118,7 @@ public class Quiz {
 		MultiChoice.testHTMLAndXML(this);
 		FillIn.testHTMLAndXML(this);
 		Match.testHTMLAndXML(this);
-		MultiAnswer.testHTMLAndXML(this);
+		MultiAnswerTest.buildTestQuestions(this);
 		Equation.testHTMLAndXML(this);
 		CodeQuestionTest.buildTestQuestions(this);
 	}
