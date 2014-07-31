@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package cpe642;
+package org.adastraeducation.quiz.test;
 import java.sql.*;
 /**
  *

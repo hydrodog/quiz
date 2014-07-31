@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cpe642;
+package org.adastraeducation.quiz.test;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+
+import org.adastraeducation.quiz.MultiAnswer;
 
 /**
  *

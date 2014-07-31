@@ -4,63 +4,31 @@
  * and open the template in the editor.
  */
 
-package cpe642;
+package org.adastraeducation.quiz;
 /**
  *
  * @author zhangchenyi
  */
-public class MultiAnswer_Answer extends Answer{
-        
-        String Description;
-        String Image;
-        boolean Result;
-    
-        MultiAnswer_Answer(String Description, String Image, boolean Result)
-        {
-            this.Description = Description;
-            this.Image = Image;
-            this.Result = Result;
-        }
-
-    MultiAnswer_Answer() {
-        throw new UnsupportedOperationException("Lost Arguments!!"); //To change body of generated methods, choose Tools | Templates.
+public class MultiAnswer_Answer extends Answer {
+    MultiAnswer_Answer(String answer, boolean isCorrect) {
+    	super(answer, isCorrect);
     }
-        
-        public String get_answer_XML()
-        {
-            String result = "";
-            
-            result = "<A correct = \"" + this.Result + "\">" + this.Description + "<\\A>" + "<img src = \""+this.Image+"\"/>\n";
-            
-            return result;
-        }
-        
-        public String get_answer_HTML()
-        {
-            String result = "";
-            
-            result = "value =\"true\">"+this.Description+"<img src = \""+this.Image+"\"/><br/>"+"\n";
-            
-            return result;
-        }
-        
-        public boolean Answer_Check(boolean check)
-        {
-            if(this.Result == check)
-            return true;
-            else return false;
-        }
-    /**
-     *
-     * @return
-     */
-        public boolean get_result()
-        {
-            return Result;
-        }
-        
-        public String get_desc()
-        {
-            return Description;
-        } 
+
+    MultiAnswer_Answer() {}
+
+    public String textanswer() {
+    	return "<A correct = \"" + this.getCorrect() + "\">" +
+    			this.getAnswer() + "</A>\n";
+//    	return "<A correct = \"" + this.getCorrect() + "\">" +
+//		this.getAnswer() + "</A>" + "<img src = \""+this.Image+"\"/>\n";
+    }
+
+    public String graphanswer() {
+    	return "value =\"true\">" + "<img src = \"" + 
+    			this.getAnswer() + "\"/><br/>" + "\n";
+    }
+    public void writeXMLContent(StringBuilder b) {
+    	b.append("<A correct = \"" + getCorrect() + "\">")
+    		.append(getAnswer()).append("</A>");
+    }
 }
