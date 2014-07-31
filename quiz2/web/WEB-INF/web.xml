@@ -1,0 +1,32 @@
+commit 83e78f084ea3ba856ec736cf210c7f7bbb63cab2
+Author: banboon <wangyzch@163.com> 2014-07-31 14:16:55
+Committer: banboon <wangyzch@163.com> 2014-07-31 14:16:55
+Parent: 2786d8c9aec60724d9ff82de7e133f0fb6ca39c6 (Added web directory for JSP files)
+Branches: master
+
+EquationQuiz.jsp page, but I delete xml file wrongly
+---------------------------------- /dev/null ----------------------------------
+diff --git a/quiz2/web/WEB-INF/web.xml b/quiz2/web/WEB-INF/web.xml
+deleted file mode 100644
+index e95f65b..0000000
+--- a/quiz2/web/WEB-INF/web.xml
++++ /dev/null
+@@ -1,18 +0,0 @@
+-<?xml version="1.0" encoding="ISO-8859-1"?>
+-<!--
+-	Specification of the quiz web app.  Nothing special to do here yet.
+--->
+-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+-                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+-  version="3.1"
+-  metadata-complete="true">
+-
+-  <display-name>Welcome to SIT Quiz!</display-name>
+-  <description>
+-     This is an experimental Quiz Engine Developed for CPE642
+-     in Summer 2014.
+-  </description>
+-
+-</web-app>
