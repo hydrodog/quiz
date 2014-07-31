@@ -1,53 +1,34 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package org.adastraeducation.quiz;
 /**
  *
  * @author zhangchenyi
  */
-public class MultiAnswer_Answer {
+public class MultiAnswer_Answer extends Answer {
+    MultiAnswer_Answer(String answer, boolean isCorrect) {
+    	super(answer, isCorrect);
+    }
 
-	private String Description;
-	private boolean Result;
+    MultiAnswer_Answer() {}
 
-	public MultiAnswer_Answer(String Description, boolean Result) {
-		this.Description = Description;
-		this.Result = Result;
-	}
+    public String textanswer() {
+    	return "<A correct = \"" + this.getCorrect() + "\">" +
+    			this.getAnswer() + "</A>\n";
+//    	return "<A correct = \"" + this.getCorrect() + "\">" +
+//		this.getAnswer() + "</A>" + "<img src = \""+this.Image+"\"/>\n";
+    }
 
-	public MultiAnswer_Answer() {
-		throw new UnsupportedOperationException("Lost Arguments!!");
-	}
-
-	public String get_answer_XML() {
-		String result = "";
-
-		result = "<A correct = \"" + this.Result + "\">" + this.Description + "<\\A>\n";
-
-		return result;
-	}
-
-	public String get_answer_HTML() {
-		String result = "";
-
-		result = "value =\"true\">"+this.Description+"<br/>\n";
-
-		return result;
-	}
-
-	public boolean Answer_Check(boolean check)
-	{
-		if(this.Result == check)
-			return true;
-		else return false;
-	}
-	/**
-	 *
-	 * @return
-	 */
-	public boolean get_result() {
-		return Result;
-	}
-
-	public String get_desc() {
-		return Description;
-	} 
+    public String graphanswer() {
+    	return "value =\"true\">" + "<img src = \"" + 
+    			this.getAnswer() + "\"/><br/>" + "\n";
+    }
+    public void writeXMLContent(StringBuilder b) {
+    	b.append("<A correct = \"" + getCorrect() + "\">")
+    		.append(getAnswer()).append("</A>");
+    }
 }

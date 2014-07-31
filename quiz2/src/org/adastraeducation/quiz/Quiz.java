@@ -4,6 +4,7 @@ import java.lang.reflect.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import org.adastraeducation.quiz.test.*;
 
 public class Quiz {
 	private ArrayList<Question> questions;
@@ -117,8 +118,9 @@ public class Quiz {
 		MultiChoice.testHTMLAndXML(this);
 		FillIn.testHTMLAndXML(this);
 		Match.testHTMLAndXML(this);
-		//MultiAnswer.testHTMLAndXML(this);
+		MultiAnswerTest.buildTestQuestions(this);
 		Equation.testHTMLAndXML(this);
+		CodeQuestionTest.buildTestQuestions(this);
 	}
 	public static Quiz buildSampleQuiz() {
 		Quiz quiz = new Quiz();

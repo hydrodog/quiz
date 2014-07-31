@@ -8,46 +8,51 @@ package org.adastraeducation.quiz;
  *
  * @author zhangchenyi
  */
-public class MultiAnswer extends Question{
+public class MultiAnswer extends Question {
+    private final MultiAnswer_Answer answers[];
     
-    private final int num_selection;
-    private int level;
-    private final String id;
-    private final String name;
-    private final MultiAnswer_Answer Answers[];
-    private final String desc;
-    
-    MultiAnswer(int num_selection, String id, String name, String desc, 
-    		String Answer[], boolean results[]) {
-         this.num_selection = num_selection;
-         this.name = name;
-         this.id = id;
-         this.desc = desc;
+    public MultiAnswer(String title, String question, String[] answers, String imgAnswer) {
+    	super(title, "1", question, false);
          
-         this.Answers = new MultiAnswer_Answer[this.num_selection];
-         for(int i =0;i<this.num_selection;i++) {
-             this.Answers[i] = new MultiAnswer_Answer(Answer[i],results[i]);
+         this.answers = new MultiAnswer_Answer[answers.length / 2];
+         for (int i = 0; i < answers.length; i += 2) {
+             this.answers[i/2] = new MultiAnswer_Answer(answers[i], answers[i+1].equals("t"));
          } 
     }
 
-    public String getTagName() { return "MultiAnswer"; }
-    
-    @Override
-    public void writeHTMLContent(StringBuilder b) {
-       b.append(this.desc).append('\n');
-        for (int i = 0; i < this.num_selection; i++) {
-                b.append("<input type = \"checkbox\" name = \"").append(name)
-                .append("\" ").append(this.Answers[i].get_answer_HTML());
-            }
-    }
+ 
+	@Override
+	public boolean isCorrect(String[] ans) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    @Override
-    public void writeXMLContent(StringBuilder b) {
-    	endTagWriteQuestion(b);
-    	b.append(desc).append('\n');
-      
-        for (int i = 0; i < this.num_selection; i++) {
-            b.append(Answers[i].get_answer_XML());
+	@Override
+	public double gradeIt(String[] answers) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getTagName() {
+		// TODO Auto-generated method stub
+		return "MultiAnswer";
+	}
+
+	@Override
+	public void writeHTMLContent(StringBuilder b) {
+	   for (int i = 0; i < answers.length; i++) {
+           b.append("<input type = \"checkbox\"name = \"")
+           .append(getName()).append(i).append("\" ")
+           .append(this.answers[i].textanswer());
+       }
+	}
+
+	@Override
+	public void writeXMLContent(StringBuilder b) {
+		endTagWriteQuestion(b);
+        for (int i = 0; i < answers.length; i++) {
+        	answers[i].writeXMLContent(b);
         }
-    }
+	}
 }
