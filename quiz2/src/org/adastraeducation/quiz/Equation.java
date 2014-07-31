@@ -196,11 +196,6 @@ public class Equation extends Question {
 		System.out.println(e.eval());
 	}
 
-	@Override
-	public boolean isCorrect(String ans) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public boolean isCorrect(String[] ans) {
