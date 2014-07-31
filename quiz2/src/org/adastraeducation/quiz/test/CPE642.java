@@ -49,13 +49,13 @@ public class CPE642 {
         String name = "name";
         
         
-        test = new MultiAnswer(4,id,name,desc,answer,img,result);
+       // test = new MultiAnswer(4,id,name,desc,answer,img,result);
         
         StringBuilder html = new StringBuilder();
         StringBuilder xml = new StringBuilder();
         
-        test.writeHTML(html);
-        test.writeXML(xml);
+        //test.writeHTML(html);
+        //test.writeXML(xml);
         
         
         try {

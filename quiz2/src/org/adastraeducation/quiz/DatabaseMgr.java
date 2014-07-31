@@ -36,22 +36,20 @@ public class DatabaseMgr {
 		try{
 			Class.forName(driver);
 			System.out.println("Driver Successfully!");
+			for (int i = 0; i < connectionsCount; i++){
+				conn = DriverManager.getConnection(url,userName,password);
+				System.out.println("Connect Successfully!");
+				// create connections in list...
+				connections.push(conn);
+			}
 		}catch(ClassNotFoundException e){
 			System.err.print("ClassNotFoundException");
-		}
-
-		try {
-			conn = DriverManager.getConnection(url,userName,password);
-			System.out.println("Connect Successfully!");
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		// create connections in list...
-		for (int i = 0; i < connectionsCount; i++){
-			connections.push(conn);
-		}
+		
 	}
 
 	/**

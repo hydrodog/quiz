@@ -16,6 +16,7 @@
 	<envproperty name="tomcat.dir" fromenv="TOMCAT"/> -->
   <!-- <property name="tomcat.dir" value="TOMCAT"/> -->
   <target name ="makejar" description="Create a jar for the HW project">
+  	<property name="tomcat.dir" value="c:/bin/tomcat8/webapps"/>
     <jar jarfile="quiz.jar" includes="*.class" basedir="bin"/>
     <echo>Copying jar into dist</echo>
     <copy todir="${tomcat.dir}/quiz/WEB-INF/lib">
@@ -27,10 +28,13 @@
   </target>
 	
   <target name="setup">
+    <property name="tomcat.dir" value="c:/bin/tomcat8/webapps"/>
 	<mkdir dir="dist" />
     <echo>Copying web into dist</echo>
     <copydir dest="dist/web" src="web" />
-	<copydir dest="dist/web/WEB-INF/lib" src="${basedir}/web/WEB-INF/lib" />
+  	<fileset dir="${tomcat.dir}/quiz/WEB-INF/lib">
+  	   <include name="{basedir}/quiz.jar" />
+  	</fileset>
   </target>
 
   <target name="compile">
