@@ -1,0 +1,20 @@
+/*
+  This is a tiny little css file to test concept.  Please put better css 
+  files here, so we can select multiple look and feel.
+
+  questions should be able to access our global css descriptions, ie we will publish some of them.
+
+  @author: Dov Kruger
+  July 30, 2014
+
+  This style is intended to look blue.
+*/
+
+/* code look and feel */
+pre {
+  font-family: Courier;
+  font-size: 14pt;
+  font-weight: bold;
+  background-color: #c0c0c0;
+  color: #000;
+}

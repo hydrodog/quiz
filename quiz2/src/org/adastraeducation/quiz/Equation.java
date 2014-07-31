@@ -39,6 +39,7 @@ import org.adastraeducation.quiz.equation.Var;
 public class Equation extends Question {
 
 	private Expression func;
+	private double correctAnswer;
 
 	public Equation(String title, String level, String question){
 		super(title, level, question, false);
@@ -47,10 +48,12 @@ public class Equation extends Question {
 	public Equation(String title, String level, String question, Expression func){
 		super(title, level, question, false);
 		this.func = func;
+		correctAnswer=func.eval();
 	}
 	
 	public void setExpression(Expression e){
 		this.func=e;
+		correctAnswer=func.eval();
 	}
 	
 
@@ -183,13 +186,20 @@ public class Equation extends Question {
 
 		Equation e1 = new Equation("plus","2",""); 
 		
-		String q = "2+3*sin(x)-6/4";
+		String q = "2+3*4-6";
 		ArrayList<String> temp = e1.parseQuestion(q);
 		Expression e = e1.parseInfix(temp);
 		e1.setExpression(e);
 		StringBuilder b = new StringBuilder();
 		e.infix(b);
 		System.out.println(b);
+		System.out.println(e.eval());
+	}
+
+	@Override
+	public boolean isCorrect(String ans) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
