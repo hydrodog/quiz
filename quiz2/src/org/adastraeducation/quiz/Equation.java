@@ -154,19 +154,14 @@ public class Equation extends Question {
 	public ArrayList<String> parseQuestion(String question){
 		
 		ArrayList<String> s = new ArrayList<String>();
-		int beginIndex=0;
 		
-		for(int i=0;i<question.trim().length();i++){
-			if(question.charAt(i)>32&&question.charAt(i)<48)
-			{
-				if(beginIndex!=i)
-				    s.add( question.substring(beginIndex, i));
-				s.add(String.valueOf(question.charAt(i)));
-				beginIndex = i+1;
-			}
-		}
-		if(beginIndex!=question.length())
-		    s.add( question.substring(beginIndex, question.length()));
+		String regex ="[\\W]|sin|cos|tan|atan|asin|abs|neg|sqrt|[\\w]";
+	    Pattern p = Pattern.compile(regex);
+	    Matcher m = p.matcher(question);    
+	    
+	    while(m.find()){
+	    	s.add(m.group());
+	    }
 		
 		return s;
 	}
@@ -186,7 +181,7 @@ public class Equation extends Question {
 
 		Equation e1 = new Equation("plus","2",""); 
 		
-		String q = "2+3*4-6";
+		String q = "2+3*4-sin(6)+1";
 		ArrayList<String> temp = e1.parseQuestion(q);
 		Expression e = e1.parseInfix(temp);
 		e1.setExpression(e);
