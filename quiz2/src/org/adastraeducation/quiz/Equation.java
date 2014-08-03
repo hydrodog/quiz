@@ -8,12 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.adastraeducation.quiz.equation.Abs;
 import org.adastraeducation.quiz.equation.Asin;
 import org.adastraeducation.quiz.equation.Atan;
+import org.adastraeducation.quiz.equation.Constant;
 import org.adastraeducation.quiz.equation.Cos;
 import org.adastraeducation.quiz.equation.Div;
 import org.adastraeducation.quiz.equation.Expression;
@@ -40,20 +42,26 @@ public class Equation extends Question {
 
 	private Expression func;
 	private double correctAnswer;
+	private HashMap<String,Var> variables;
 
 	public Equation(String title, String level, String question){
 		super(title, level, question, false);
 	}
 	
-	public Equation(String title, String level, String question, Expression func){
+	public Equation(String title, String level, String question, Expression func, HashMap<String,Var> variables){
 		super(title, level, question, false);
 		this.func = func;
+		this.variables = variables;
 		correctAnswer=func.eval();
 	}
 	
 	public void setExpression(Expression e){
 		this.func=e;
 		correctAnswer=func.eval();
+	}
+	
+	public void setVariables(HashMap<String,Var> variables){
+		this.variables = variables;
 	}
 	
 
@@ -140,10 +148,10 @@ public class Equation extends Question {
 				Matcher m = p.matcher(temp);
 				if(m.matches()){
 					double x = Double.parseDouble(temp);
-					stack.push(new Var(temp,x));
+					stack.push(new Constant(x));
 				}
 				else{
-					stack.push(new Var(temp,1,3,20));
+					stack.push(variables.get(temp));
 				}
 			}
 		}
@@ -169,26 +177,13 @@ public class Equation extends Question {
 	public static void testHTMLAndXML(Quiz quiz){
 		Var x = new Var("x",1,3,10);
 		Var y = new Var("y",1,3,10);
+		HashMap<String,Var> variables = new HashMap<String,Var>();
+		variables.put("x",x);
+		variables.put("y",y);
 
-		Equation e1 = new Equation("plus","2","",new Plus(x,y)); 
+		Equation e1 = new Equation("plus","2","",new Plus(x,y),variables); 
 
 		quiz.addQuestion(e1);
-	}
-
-	public static void main(String[] args){
-		Var x = new Var("x",1,3,10);
-		Var y = new Var("y",1,3,10);
-
-		Equation e1 = new Equation("plus","2",""); 
-		
-		String q = "2+3*4-sin(6)+1";
-		ArrayList<String> temp = e1.parseQuestion(q);
-		Expression e = e1.parseInfix(temp);
-		e1.setExpression(e);
-		StringBuilder b = new StringBuilder();
-		e.infix(b);
-		System.out.println(b);
-		System.out.println(e.eval());
 	}
 
 
