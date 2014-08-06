@@ -1,12 +1,5 @@
 package org.adastraeducation.quiz;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -185,7 +178,30 @@ public class Equation extends Question {
 
 		quiz.addQuestion(e1);
 	}
+	
+	public static void main(String[] args){
+		Var x = new Var("x",1,3,10);
+		Var y = new Var("y",1,3,10);
 
+		Equation e1 = new Equation("plus","2",""); 
+		
+		HashMap<String,Var> map = new HashMap<String,Var>();
+		map.put("x", x);
+		map.put("y", y);
+		
+		e1.setVariables(map);
+
+		String q = "2+2*4-sin(y)+x";
+		ArrayList<String> temp = e1.parseQuestion(q);
+		Expression e = e1.parseInfix(temp);
+		e1.setExpression(e);
+		StringBuilder b = new StringBuilder();
+		e.infix(b);
+		b.append("\n");
+		e.infixReplaceVar(b);
+		System.out.println(b);
+		System.out.println(e.eval());
+	}
 
 	@Override
 	public boolean isCorrect(String[] ans) {
