@@ -2,7 +2,7 @@
 <project name="WebApp.makejar" default="makejar" basedir=".">
   <property name="tomcat.dir" value="/Users/wyz/Documents/tomcat/webapps"/>
   <target name ="makejar" description="Create a jar for the HW project">
-    <jar jarfile="quiz.jar" includes="*.class" basedir="bin"/>
+    <jar jarfile="quiz.jar" basedir="bin"/>
     <copy todir="${tomcat.dir}/quiz/WEB-INF/lib">
     	<fileset file="${basedir}/quiz.jar"/>	
     </copy>
