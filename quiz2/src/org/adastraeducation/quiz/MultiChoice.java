@@ -31,13 +31,36 @@ public class MultiChoice extends Question {
 		stdchoice = c;
 		//TODO: Make sure imgAnswer is correct!
 	}
+	
+	/*
+	 * need new constructor to load data from database
+	 */
+	public MultiChoice(int qid, int qtype, String title, String image, String text){
+		super(qid, qtype, title, image, text);
+
+	}
+	
 	public void addAnswer(String answer, boolean correct) {
+		if(answers == null){
+			answers = new Answer[1];
+			answers[0] = new Answer(answer, correct);
+		}
+		else{
+			Answer[] temp = answers; //TODO: this should be changed to ArrayList<Answer>!!!
+			
+			answers = new Answer[temp.length+1];
+			System.arraycopy(temp, 0, answers, 0, temp.length);
+			answers[temp.length] = new Answer(answer, correct);
+		}
+	}
+	
+	/*public void addAnswer(String answer, boolean correct) {
 		Answer[] temp = answers; //TODO: this should be changed to ArrayList<Answer>!!!
 		
 		answers = new Answer[temp.length+1];
 		System.arraycopy(temp, 0, answers, 0, temp.length);
 		answers[temp.length] = new Answer(answer, correct);
-	}
+	}*/
 	public static void testHTMLAndXML(Quiz quiz){
 		String []ans1 = { "A dynosaur", "t", "A fish", "f", "A primate", "f", "A mammal", "f"};
 		MultiChoice m1 = new MultiChoice("dynosaur", "1", "What is a Tyranosaurus Rex?", "f", ans1, "f"); 

@@ -55,6 +55,17 @@ public abstract class Question {
 		this.question = question;
 		this.imgQuestion = imgQuestion;
 	}
+	
+	/*
+	 * new constructor to load data from database
+	 */
+	public Question(int qid, int qtype, String title, String image, String text){
+		id = qid;
+		name = qtype+"";
+		this.title = title;
+		imgQuestion = !(image == null);
+		question = text;
+	}
 
 	public int getId() {
 		return id;
