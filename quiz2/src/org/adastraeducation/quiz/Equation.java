@@ -1,19 +1,14 @@
 package org.adastraeducation.quiz;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.adastraeducation.quiz.equation.Abs;
 import org.adastraeducation.quiz.equation.Asin;
 import org.adastraeducation.quiz.equation.Atan;
+import org.adastraeducation.quiz.equation.Constant;
 import org.adastraeducation.quiz.equation.Cos;
 import org.adastraeducation.quiz.equation.Div;
 import org.adastraeducation.quiz.equation.Expression;
@@ -40,20 +35,26 @@ public class Equation extends Question {
 
 	private Expression func;
 	private double correctAnswer;
+	private HashMap<String,Var> variables;
 
 	public Equation(String title, String level, String question){
 		super(title, level, question, false);
 	}
 	
-	public Equation(String title, String level, String question, Expression func){
+	public Equation(String title, String level, String question, Expression func, HashMap<String,Var> variables){
 		super(title, level, question, false);
 		this.func = func;
+		this.variables = variables;
 		correctAnswer=func.eval();
 	}
 	
 	public void setExpression(Expression e){
 		this.func=e;
 		correctAnswer=func.eval();
+	}
+	
+	public void setVariables(HashMap<String,Var> variables){
+		this.variables = variables;
 	}
 	
 
@@ -140,10 +141,10 @@ public class Equation extends Question {
 				Matcher m = p.matcher(temp);
 				if(m.matches()){
 					double x = Double.parseDouble(temp);
-					stack.push(new Var(temp,x));
+					stack.push(new Constant(x));
 				}
 				else{
-					stack.push(new Var(temp,1,3,20));
+					stack.push(variables.get(temp));
 				}
 			}
 		}
@@ -154,19 +155,14 @@ public class Equation extends Question {
 	public ArrayList<String> parseQuestion(String question){
 		
 		ArrayList<String> s = new ArrayList<String>();
-		int beginIndex=0;
 		
-		for(int i=0;i<question.trim().length();i++){
-			if(question.charAt(i)>32&&question.charAt(i)<48)
-			{
-				if(beginIndex!=i)
-				    s.add( question.substring(beginIndex, i));
-				s.add(String.valueOf(question.charAt(i)));
-				beginIndex = i+1;
-			}
-		}
-		if(beginIndex!=question.length())
-		    s.add( question.substring(beginIndex, question.length()));
+		String regex ="[\\W]|sin|cos|tan|atan|asin|abs|neg|sqrt|[\\w]";
+	    Pattern p = Pattern.compile(regex);
+	    Matcher m = p.matcher(question);    
+	    
+	    while(m.find()){
+	    	s.add(m.group());
+	    }
 		
 		return s;
 	}
@@ -174,28 +170,38 @@ public class Equation extends Question {
 	public static void testHTMLAndXML(Quiz quiz){
 		Var x = new Var("x",1,3,10);
 		Var y = new Var("y",1,3,10);
+		HashMap<String,Var> variables = new HashMap<String,Var>();
+		variables.put("x",x);
+		variables.put("y",y);
 
-		Equation e1 = new Equation("plus","2","",new Plus(x,y)); 
+		Equation e1 = new Equation("plus","2","",new Plus(x,y),variables); 
 
 		quiz.addQuestion(e1);
 	}
-
+	
 	public static void main(String[] args){
 		Var x = new Var("x",1,3,10);
 		Var y = new Var("y",1,3,10);
 
 		Equation e1 = new Equation("plus","2",""); 
 		
-		String q = "2+3*4-6";
+		HashMap<String,Var> map = new HashMap<String,Var>();
+		map.put("x", x);
+		map.put("y", y);
+		
+		e1.setVariables(map);
+
+		String q = "2+2*4-sin(y)+x";
 		ArrayList<String> temp = e1.parseQuestion(q);
 		Expression e = e1.parseInfix(temp);
 		e1.setExpression(e);
 		StringBuilder b = new StringBuilder();
 		e.infix(b);
+		b.append("\n");
+		e.infixReplaceVar(b);
 		System.out.println(b);
 		System.out.println(e.eval());
 	}
-
 
 	@Override
 	public boolean isCorrect(String[] ans) {
