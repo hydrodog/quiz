@@ -156,7 +156,7 @@ public class Equation extends Question {
 		
 		ArrayList<String> s = new ArrayList<String>();
 		
-		String regex ="[\\W]|sin|cos|tan|atan|asin|abs|neg|sqrt|[\\w]";
+		String regex ="[\\W]|([\\w]*)";
 	    Pattern p = Pattern.compile(regex);
 	    Matcher m = p.matcher(question);    
 	    
