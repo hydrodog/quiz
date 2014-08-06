@@ -1,4 +1,15 @@
-use quiz;
+CREATE TABLE QuestionContainers (
+  qcId INTEGER(8) PRIMARY KEY,
+  
+);
+
+CREATE TABLE QuestionDecorations (
+  qcId INTEGER(8),
+  seq  INTEGER(4),
+  
+  text VARCHAR(255),
+  image VARCHAR(255)
+);
 
 CREATE TABLE IF NOT EXISTS Questions  (
   qid integer(8) primary key,
@@ -8,13 +19,34 @@ CREATE TABLE IF NOT EXISTS Questions  (
   text varchar(256)
 );
 
+CREATE TABLE IF NOT EXISTS EquationQuestions (
+  qid INTEGER(8),
+  equation VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS EquationVariables (
+  qid INTEGER(8),
+  varName char(8),
+  varMin DOUBLE,
+  varMax DOUBLE,
+  varStep DOUBLE
+);
+
+CREATE TABLE QuestionParts (
+  qid INTEGER(8),
+  pos INTEGER(4),
+  PRIMARY KEY(qid, pos),
+  text VARCHAR(255),
+  img  VARCHAR(255)
+);
+
 CREATE TABLE IF NOT EXISTS Answers  (
   qid integer(8),
   aid integer(2),
   primary key (qid,aid),
   image varchar(256),
   text varchar(256),
-  correct char(1) NOT NULL DEFAULT 'N',
+  correct char(1),
   response varchar(256) -- information to display if this answer selected
 );
 
@@ -27,7 +59,7 @@ CREATE TABLE IF NOT EXISTS Quizzes  (
   instructions varchar(256)
 );
 
-CREATE TABLE IF NOT EXISTS QuizzesMatch  (
+CREATE TABLE IF NOT EXISTS QuizzesQuestionsOrder  (
   quizid integer(8),
   qid integer(8),
   questionOrder integer(4)
@@ -51,5 +83,3 @@ INSERT INTO Quizzes VALUES(1, 'animals', 'Animals Quiz', 'Answer these fun quest
 
 INSERT INTO QuizzesMatch VALUES(1, 1, 1);
 INSERT INTO QuizzesMatch VALUES(1, 2, 2);
-
-
