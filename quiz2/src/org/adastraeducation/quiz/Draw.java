@@ -5,19 +5,17 @@ public class Draw extends Question {
 		super(title, "1", question, false);
 	}
 	
-	public StringBuilder connectJavaScript(StringBuilder b){
+	public void connectJavaScript(StringBuilder b){
 		b.append("<head>");
 		b.append("<script src=\"breadboard.js\" type=\"text/javascript\"></script>");
 		b.append("</head>");
-		return b;
 	}
 	
-	private StringBuilder setCanvas(StringBuilder b){
+	private void setCanvas(StringBuilder b){
 		b.append("<canvas id = \"breadBoard\" height = \"430\" width = \"813\" style = \"border: 1px solid #d3d3d3; background: #aaaaaa\"></canvas>");
-		return b;
 	}
 	
-	private StringBuilder setButtons(StringBuilder b){
+	private void setButtons(StringBuilder b){
 		String[] buttons = {"Resistance (Horizontal)",
 							"Resistance (Vertical)",
 							"Wire"};
@@ -30,21 +28,22 @@ public class Draw extends Question {
 			b.append("<button onclick=\"").append(buttonsFunction[i]).append("\">").append(buttons[i]).append("</button>");
 		}
 		b.append("</div>");
-		return b;
 	}
 
 	public void writeHTMLContent(StringBuilder b){
 		b.append("<html>\n");
+		
+		connectJavaScript(b);
 		
 		b.append("<body>\n");
 		//set questions
 		b.append("<h2>Question: ").append(getQuestion()).append("</h2><br/>");
 		
 		//set canvas tag
-		b = setCanvas(b);
+		setCanvas(b);
 		
-		//add bottons
-		b = setButtons(b);
+		//add buttons
+		setButtons(b);
 		
 		b.append("</body>\n</html>");
 	}
