@@ -18,7 +18,7 @@ public class DatabaseMgr {
 	static {
 		Properties p = new Properties(); // TODO: LOAD PROPERTIES!
 		try {
-			p.load(new FileInputStream("conf/quiz.properties"));
+			p.load(new FileInputStream("conf/postgres.properties"));
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {

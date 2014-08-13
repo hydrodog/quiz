@@ -34,7 +34,7 @@ public class Minus implements Expression{
 	
 	public void infixReplaceVar(StringBuilder b){
 		op1.infixReplaceVar(b);
-		b.append("*");
+		b.append("-");
 		if(op2 instanceof Var ){
 			op2.infixReplaceVar(b);
 		}
@@ -48,6 +48,6 @@ public class Minus implements Expression{
 	public void rpnReplaceVar(StringBuilder b){
 		op1.rpnReplaceVar(b);
 		op2.rpnReplaceVar(b);
-		b.append("*");
+		b.append("-");
 	}
 }

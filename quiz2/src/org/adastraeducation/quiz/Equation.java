@@ -1,5 +1,6 @@
 package org.adastraeducation.quiz;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -39,6 +40,14 @@ public class Equation extends Question {
 
 	public Equation(String title, String level, String question){
 		super(title, level, question, false);
+	}
+	
+	public Equation(String title, String level, String question, String equation, HashMap<String,Var> variables){
+		super(title,level,question,false);
+		this.variables=variables;
+		ArrayList<String> equationSplit = this.parseQuestion(equation);
+		this.func = this.parseInfix(equationSplit);
+		correctAnswer = func.eval();
 	}
 	
 	public Equation(String title, String level, String question, Expression func, HashMap<String,Var> variables){
@@ -166,6 +175,22 @@ public class Equation extends Question {
 		
 		return s;
 	}
+	
+	public ResultSet readDatabase(String sql){
+		return DatabaseMgr.select(sql);
+	}
+	
+	public void writeDatabase(String sql){
+		DatabaseMgr.update(sql);
+	}
+	
+	public Expression getExpression(){
+		return func;
+	}
+	
+	public double getCorrectAnswer(){
+		return correctAnswer;
+	}
 
 	public static void testHTMLAndXML(Quiz quiz){
 		Var x = new Var("x",1,3,10);
@@ -182,16 +207,18 @@ public class Equation extends Question {
 	public static void main(String[] args){
 		Var x = new Var("x",1,3,10);
 		Var y = new Var("y",1,3,10);
+		Var since = new Var("since",1,3,10);
 
 		Equation e1 = new Equation("plus","2",""); 
 		
 		HashMap<String,Var> map = new HashMap<String,Var>();
 		map.put("x", x);
 		map.put("y", y);
+		map.put("since",since);
 		
 		e1.setVariables(map);
 
-		String q = "2+2*4-sin(y)+x";
+		String q = "x+sin(since)-y";
 		ArrayList<String> temp = e1.parseQuestion(q);
 		Expression e = e1.parseInfix(temp);
 		e1.setExpression(e);
