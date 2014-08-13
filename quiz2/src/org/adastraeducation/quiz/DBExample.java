@@ -1,5 +1,6 @@
 package org.adastraeducation.quiz;
 
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,9 @@ import java.sql.Statement;
 
 public class DBExample {
 	public static void main(String[] args) {
+		print(System.out, "<br/>");
+	}
+	public static void print(PrintStream out, String sep) {
 		Connection conn = null;
 		try {
 			// first, the simple way...
@@ -22,7 +26,7 @@ public class DBExample {
 				String image = rs.getString("image");
 				String text = rs.getString("text");
 				
-				System.out.println(id + "\t" + qtype + "\t" + title + "\t" + image + "\t" + text);
+				out.println(id + "\t" + qtype + "\t" + title + "\t" + image + "\t" + text + sep);
 				
 			}
 			
