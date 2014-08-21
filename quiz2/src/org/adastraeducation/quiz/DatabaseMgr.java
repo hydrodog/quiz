@@ -16,9 +16,13 @@ public class DatabaseMgr {
 	private static Object lock = new Object();
 
 	static {
+		System.out.println(DatabaseMgr.class.getProtectionDomain().getCodeSource().getLocation());
 		Properties p = new Properties(); // TODO: LOAD PROPERTIES!
+		System.out.println("111");
 		try {
-			p.load(new FileInputStream("conf/postgres.properties"));
+			System.out.println("111");
+			p.load(new FileInputStream("/Users/wyz/Workspaces/MyEclipse 10/Equation/conf/postgres.properties"));
+			System.out.println("111");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -29,8 +33,8 @@ public class DatabaseMgr {
 		String userName = p.getProperty("userName");
 		String password = p.getProperty("password");
 		//System.out.println(password);
+		//System.exit(0);
 		final int connectionsCount = Integer.parseInt(p.getProperty("connectionsCount"));
-
 		Connection conn=null;
 
 		try{
@@ -121,6 +125,10 @@ public class DatabaseMgr {
 			}
 		}
 		returnConnection(conn);
+	}
+	
+	public static void main(String[] args){
+		System.out.println(DatabaseMgr.class.getProtectionDomain().getCodeSource().getLocation());
 	}
 
 }

@@ -228,6 +228,18 @@ public class Equation extends Question {
 		e.infixReplaceVar(b);
 		System.out.println(b);
 		System.out.println(e.eval());
+		System.out.println(e1.getId());
+		
+        StringBuilder infix = new StringBuilder();
+        StringBuilder rpn = new StringBuilder();
+        
+        e1.getExpression().infix(infix);
+        e1.getExpression().rpn(rpn);
+        
+        String sql="insert into questions values("+e1.getId()+",'"+e1.getTagName()+"',"+e1.getLevel()+",'"
+                +e1.getTitle()+"',"+"false,"+"'"+e1.getQuestion()+"','"+infix.toString()+"','"+rpn.toString()+"',"+e1.getCorrectAnswer()+")";
+                
+            DatabaseMgr.update(sql);
 	}
 
 	@Override
